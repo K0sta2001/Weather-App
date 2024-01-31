@@ -1,14 +1,16 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View } from "react-native-animatable";
-import { useState } from "react";
 import Spinner from "../assets/spinner";
+import { useTimezoneData } from "./timezone";
 
 export const WeatherIcon = ({ description, size, color = "white" }) => {
   if (description === undefined) {
     return <Spinner />;
   }
-  const [formattedTime, setFormattedTime] = useState(null);
-  console.log(description);
+
+  // move formattedTime as parameter
+  const { data: formattedTime } = useTimezoneData();
+  console.log(formattedTime)
   const isNightTime = formattedTime >= 19 || formattedTime < 6;
   const isCloudy = [
     "few clouds",

@@ -27,5 +27,5 @@ const getWeatherData = async () => {
 };
 
 export const useWeatherData = () => {
-  return useQuery("weatherData", getWeatherData, { staleTime: 60000 });
+  return useQuery("weatherData", getWeatherData, { staleTime: 60000 * 5 });
 };

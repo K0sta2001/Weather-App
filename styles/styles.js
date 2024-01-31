@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     },
     size: {
       small: {
-        fontSize: 11,
+        fontSize: 12,
       },
       medium: {
         fontSize: 18,
@@ -43,8 +43,7 @@ export const styles = StyleSheet.create({
     constant: {
       fontFamily: "Poppins",
       fontStyle: "normal",
-    }
-  
+    },
   },
   weatherStack: {
     container: {
@@ -69,7 +68,7 @@ export const styles = StyleSheet.create({
       backgroundColor: "#A7ACC4",
       rowGap: 1,
     },
-    weeklyForeCast: {
+    dailyForeCast: {
       background:
         "radial-gradient(231% 135.8% at 0.9% 2.98%, rgba(167, 172, 196, 0.52) 0%, rgba(167, 172, 196, 0.23) 100%)",
       backdropFilter: "blur(16.28293800354004px)",

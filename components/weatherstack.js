@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
 import { styles } from "../styles/styles.js";
 import { WeatherIcon } from "../utils/weathericon.js";
+import { kelvinToCelsius } from "../utils/temperatureutils.js";
 
 // Image assets:
 import { AntDesign } from "@expo/vector-icons";
@@ -9,9 +10,9 @@ import { AntDesign } from "@expo/vector-icons";
 export default function WeatherStack({ currentWeather, dailyForecast }) {
   const { weatherStack } = styles;
   const { text } = styles;
-  console.log(currentWeather)
 
-  const CurrentWeather = () => {
+  //
+  const CurrentWeatherComponent = () => {
     return (
       <View
         style={[
@@ -57,15 +58,67 @@ export default function WeatherStack({ currentWeather, dailyForecast }) {
           <Text
             style={[text.constant, text.color.darkerWhite, text.size.large]}
           >
-            
+            {kelvinToCelsius(currentWeather?.main?.temp)}
           </Text>
         </View>
       </View>
     );
   };
+  //
+  const DailyForeCastComponent = () => {
+    const firstRow = dailyForecast?.slice(0, 3);
+    const secondRow = dailyForecast?.slice(3, 6);
+    console.log(firstRow);
+
+    return (
+      <View style={[weatherStack.childContainer, weatherStack.dailyForecast]}>
+        {renderRow(firstRow)}
+        {renderRow(secondRow)}
+      </View>
+    );
+  };
+  const renderRow = (hours) => (
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+      }}
+    >
+      {hours?.map((hour, index) => (
+        <View key={hour.dt} style={{ width: "20%" }}>
+          <Text
+            style={[
+              styles.text.color.white,
+              styles.text.size.small,
+              styles.text.weight.light,
+              styles.text.constant,
+            ]}
+          >
+            {hour.dt_txt.split(" ")[1].slice(0, 5)}
+          </Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <WeatherIcon size={25} description={hour.weather[0].description} />
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+
+  //"
+
   return (
     <View style={weatherStack.container}>
-      <CurrentWeather />
+      <CurrentWeatherComponent />
+      <DailyForeCastComponent />
     </View>
   );
 }

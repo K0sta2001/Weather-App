@@ -11,5 +11,5 @@ const fetchTimezoneData = async () => {
 };
 
 export const useTimezoneData = () => {
-  return useQuery("hoursTbilisi", fetchTimezoneData, { staleTime: 60000 });
+  return useQuery("hoursTbilisi", fetchTimezoneData, { staleTime: 60000 * 10 });
 };

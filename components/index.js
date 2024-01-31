@@ -2,7 +2,7 @@ import { styles } from "../styles/styles.js";
 import { ImageBackground, View, Text } from "react-native";
 import backgroundImg from "../assets/images/background.png";
 import WeatherStack from "./weatherstack.js";
-import { useWeatherData } from "../services/WeatherService.js";
+import { useWeatherData } from "../services/weatherservices.js";
 import { useEffect, useState } from "react";
 
 const MainStack = () => {

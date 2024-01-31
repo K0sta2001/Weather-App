@@ -2,7 +2,7 @@ import MainStack from "./components/index.js";
 import { useFonts } from "expo-font";
 import Spinner from "./assets/spinner.js";
 import { useTimezoneData } from "./utils/timezone.js";
-import { useWeatherData } from "./services/WeatherService.js";
+import { useWeatherData } from "./services/weatherservices.js";
 
 let customFonts = {
   Poppins: require("./assets/fonts/Poppins-Regular.ttf"),
