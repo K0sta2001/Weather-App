@@ -2,6 +2,8 @@ import { View, Text } from "react-native";
 import { styles } from "../styles/styles.js";
 import { WeatherIcon } from "../utils/weathericon.js";
 import { kelvinToCelsius } from "../utils/temperatureutils.js";
+import { useState, useEffect } from "react";
+import { useTimezoneData } from "../utils/timezone.js";
 
 // Image assets:
 import { AntDesign } from "@expo/vector-icons";
@@ -10,9 +12,13 @@ import { AntDesign } from "@expo/vector-icons";
 export default function WeatherStack({ currentWeather, dailyForecast }) {
   const { weatherStack } = styles;
   const { text } = styles;
-
   //
   const CurrentWeatherComponent = () => {
+    const { data: time } = useTimezoneData();
+    const [currentTimeHour, setCurrentTimeHour] = useState(null);
+    useEffect(() => {
+      setCurrentTimeHour(new Date(time?.datetime).getUTCHours() + 4);
+    }, [time]);
     return (
       <View
         style={[
@@ -54,7 +60,10 @@ export default function WeatherStack({ currentWeather, dailyForecast }) {
             columnGap: 20,
           }}
         >
-          <WeatherIcon description={currentWeather?.weather[0]?.description} />
+          <WeatherIcon
+            description={currentWeather?.weather[0]?.description}
+            time={currentTimeHour}
+          />
           <Text
             style={[text.constant, text.color.darkerWhite, text.size.large]}
           >
@@ -68,7 +77,6 @@ export default function WeatherStack({ currentWeather, dailyForecast }) {
   const DailyForeCastComponent = () => {
     const firstRow = dailyForecast?.slice(0, 3);
     const secondRow = dailyForecast?.slice(3, 6);
-    console.log(firstRow);
 
     return (
       <View style={[weatherStack.childContainer, weatherStack.dailyForecast]}>
@@ -77,41 +85,69 @@ export default function WeatherStack({ currentWeather, dailyForecast }) {
       </View>
     );
   };
-  const renderRow = (hours) => (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: "100%",
-      }}
-    >
-      {hours?.map((hour, index) => (
-        <View key={hour.dt} style={{ width: "20%" }}>
-          <Text
-            style={[
-              styles.text.color.white,
-              styles.text.size.small,
-              styles.text.weight.light,
-              styles.text.constant,
-            ]}
-          >
-            {hour.dt_txt.split(" ")[1].slice(0, 5)}
-          </Text>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <WeatherIcon size={25} description={hour.weather[0].description} />
-          </View>
-        </View>
-      ))}
-    </View>
-  );
+  const renderRow = (hours) => {
+    return (
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        {hours?.map((hourlyWeather) => {
+          return (
+            <View
+              key={hourlyWeather.dt}
+              style={{
+                width: "20%",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={[
+                  styles.text.color.white,
+                  styles.text.size.medium,
+                  styles.text.weight.light,
+                  styles.text.constant,
+                ]}
+              >
+                {hourlyWeather.dt_txt.split(" ")[1].slice(0, 5)}
+              </Text>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  columnGap: 2,
+                }}
+              >
+                <WeatherIcon
+                  size={44}
+                  description={hourlyWeather.weather[0].description}
+                  time={parseInt(
+                    hourlyWeather.dt_txt.split(" ")[1].slice(0, 2)
+                  )}
+                />
+                <Text
+                  style={[
+                    styles.text.constant,
+                    { fontSize: 24 },
+                    styles.text.weight.light,
+                    styles.text.color.white,
+                  ]}
+                >
+                  {kelvinToCelsius(hourlyWeather.main.temp) + "\u00B0"}
+                </Text>
+              </View>
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
 
   //"
 

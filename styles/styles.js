@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
     paddingTop: 60,
     paddingBottom: 60,
+    justifyContent: "space-between"
   },
   text: {
     color: {
@@ -50,7 +51,7 @@ export const styles = StyleSheet.create({
       width: "92%",
       display: "flex",
       flexDirection: "column",
-      rowGap: 9,
+      rowGap: 107,
     },
     childContainer: {
       borderRadius: 19,
@@ -68,11 +69,11 @@ export const styles = StyleSheet.create({
       backgroundColor: "#A7ACC4",
       rowGap: 1,
     },
-    dailyForeCast: {
+    dailyForecast: {
       background:
         "radial-gradient(231% 135.8% at 0.9% 2.98%, rgba(167, 172, 196, 0.52) 0%, rgba(167, 172, 196, 0.23) 100%)",
       backdropFilter: "blur(16.28293800354004px)",
-      rowGap: "10px",
+      rowGap: 15,
     },
   },
 });

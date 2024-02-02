@@ -23,6 +23,17 @@ const MainStack = () => {
           currentWeather={currentWeather}
           dailyForecast={dailyForecast}
         />
+        <Text
+          style={[
+            styles.text.weight.bold,
+            { fontSize: 14, textAlign: "center", width: "90%" },
+            styles.text.color.white,
+          ]}
+        >
+          This app was inspired just because of my love of winter. Winter's my
+          element and i feel free in the snow, especially when i'm skiing in the
+          mountains. Don't forget to wear a jacket {"\u2665"}
+        </Text>
       </View>
     </ImageBackground>
   );
